@@ -1,60 +1,60 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { useDispatch } from "react-redux";
+import React, { useCallback, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { v4 as uuidv4 } from "uuid";
 
-import Body from "../components/Body";
-import ListRepo from "../components/ListRepo";
-import { getListRepo } from "../actions/actionRepo";
-import Edit from "../components/Edit";
+import { Body, ListRepo, Edit } from "../components";
+import { clearTimer, getListRepo } from "../actions/actionRepo";
+import { useInterval } from "../customHooks/useInterval";
 
 export default function Main() {
-  const [timer, setTimer] = useState(0);
   const [loadList, setLoadList] = useState({
     active: true,
-    timer: "",
   });
+  const [refresh, setRefresh] = useState(false);
+  const timer = useSelector((state) => state.repo.timer);
+  const isLoading = useSelector((state) => state.repo.isLoadingRepo);
   const dispatch = useDispatch();
+  useInterval(callbackInterval, loadList.active, 60000);
 
   const onClickEdit = useCallback(() => {
     dispatch(getListRepo());
-    setTimer(0);
   }, []);
 
   window.addEventListener("scroll", function () {
     if (window.pageYOffset) {
-      setLoadList(Object.assign({}, loadList, { active: false }));
+      setLoadList(Object.assign({}, loadList, { active: null }));
     } else {
-      setLoadList(Object.assign({}, loadList, { active: true }));
+      setLoadList(Object.assign({}, loadList, { active: uuidv4() }));
     }
   });
 
-  useMemo(() => {
-    if (loadList.active) {
-      clearInterval(loadList.timer);
-      loadList.timer = setInterval(() => {
-        setTimer(0);
-        dispatch(getListRepo());
-      }, 60000);
-    } else {
-      clearInterval(loadList.timer);
+  function callbackInterval() {
+    dispatch(getListRepo());
+  }
+
+  useEffect(() => {
+    if (timer) {
+      setRefresh(false);
+      let id = setTimeout(() => {
+        setRefresh(true);
+        dispatch(clearTimer());
+      }, 15000);
+
+      return () => {
+        clearTimeout(id);
+      };
     }
-  }, [loadList.active]);
+  }, [timer]);
 
   useEffect(() => {
     dispatch(getListRepo());
   }, []);
 
-  useEffect(() => {
-    if (timer < 15) {
-      setTimeout(() => {
-        setTimer(timer + 1);
-      }, 1000);
-    }
-  }, [timer]);
-
   return (
     <Body>
+      {isLoading && <div>Loading...</div>}
       <ListRepo />
-      {timer >= 15 && <Edit onClick={onClickEdit} />}
+      {refresh && <Edit onClick={onClickEdit} />}
     </Body>
   );
 }

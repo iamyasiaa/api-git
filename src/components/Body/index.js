@@ -1,7 +1,3 @@
-import React from "react";
+import Body from "./Body";
 
-import styles from "./styles.module.scss";
-
-export default function Body({ children }) {
-  return <div className={styles.body}>{children}</div>;
-}
+export default Body;

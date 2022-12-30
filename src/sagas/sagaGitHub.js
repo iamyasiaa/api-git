@@ -2,6 +2,8 @@ import { put, takeEvery } from "redux-saga/effects";
 import axios from "axios";
 
 import {
+  clearLoadingEvent,
+  clearLoadingRepo,
   GET_LIST_REPO,
   GET_REPO,
   setListRepo,
@@ -18,6 +20,7 @@ function* workerGetListRepo() {
 
     yield put(setListRepo(response.data));
   } catch (e) {
+    yield put(clearLoadingRepo());
     console.log(e);
   }
 }
@@ -30,6 +33,7 @@ function* workerGetRepo({ payload }) {
 
     yield put(setRepo(response.data));
   } catch (e) {
+    yield put(clearLoadingEvent());
     console.log(e);
   }
 }

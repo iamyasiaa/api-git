@@ -1,15 +1,14 @@
 import React, { useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import { getRepo } from "../actions/actionRepo";
-import ListEvents from "../components/ListEvents";
-import Body from "../components/Body";
-import InfoUser from "../components/InfoUser";
+import { ListEvents, InfoUser, Body } from "../components";
 
 export default function Description() {
   const dispatch = useDispatch();
   const location = useLocation();
+  const isLoading = useSelector((state) => state.repo.isLoadingEvent);
   const userName = location.pathname.slice(1);
 
   useEffect(() => {
@@ -18,6 +17,7 @@ export default function Description() {
 
   return (
     <Body>
+      {isLoading && <div>Loading...</div>}
       <InfoUser />
       <ListEvents />
     </Body>
