@@ -1,3 +1,1 @@
-import CardEvent from "./CardEvent";
-
-export default CardEvent;
+export { default as CardEvent } from './CardEvent'

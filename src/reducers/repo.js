@@ -9,11 +9,15 @@ import {
 } from "../actions/actionRepo";
 
 const defaultState = {
-  listRepo: [],
-  listEvent: [],
+  repoList: {
+    data: [],
+    loading: false,
+  },
+  eventsList: {
+    data: [],
+    loading: false,
+  },
   timer: false,
-  isLoadingRepo: false,
-  isLoadingEvent: false,
 };
 
 export default function repo(state = defaultState, action) {
@@ -21,24 +25,35 @@ export default function repo(state = defaultState, action) {
     case SET_LIST_REPO:
       return {
         ...state,
-        listRepo: action.payload,
-        isLoadingRepo: false,
+        repoList: {
+          data: action.payload,
+          loading: false,
+        },
         timer: true,
       };
     case CLEAR_LOADING_EVENT:
       return {
         ...state,
-        isLoadingEvent: false,
+        eventsList: {
+          ...state.eventsList,
+          loading: false,
+        },
       };
     case GET_REPO:
       return {
         ...state,
-        isLoadingEvent: true,
+        eventsList: {
+          ...state.eventsList,
+          loading: true,
+        },
       };
     case GET_LIST_REPO:
       return {
         ...state,
-        isLoadingRepo: true,
+        repoList: {
+          ...state.repoList,
+          loading: true,
+        },
       };
     case CLEAR_TIMER:
       return {
@@ -48,13 +63,18 @@ export default function repo(state = defaultState, action) {
     case CLEAR_LOADING_REPO:
       return {
         ...state,
-        isLoadingRepo: false,
+        repoList: {
+          ...state.repoList,
+          loading: false,
+        },
       };
     case SET_REPO:
       return {
         ...state,
-        isLoadingEvent: false,
-        listEvent: action.payload,
+        eventsList: {
+          data: action.payload,
+          loading: false,
+        },
       };
     default:
       return state;

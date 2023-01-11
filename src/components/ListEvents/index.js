@@ -1,3 +1,1 @@
-import ListEvents from "./ListEvents";
-
-export default ListEvents;
+export {default as ListEvents} from './ListEvents'

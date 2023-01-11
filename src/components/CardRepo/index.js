@@ -1,3 +1,1 @@
-import CardRepo from "./CardRepo";
-
-export default CardRepo;
+export {default as CardRepo} from './CardRepo'

@@ -6,16 +6,13 @@ export default function CardEvent({ item }) {
   return (
     <div className={styles.item}>
       <div>
-        <span>Тип: </span>
-        <span>{item?.type}</span>
+        <span>Тип: {item?.type}</span>
       </div>
       <div>
-        <span>Название репозитория: </span>
-        <span>{item?.repo?.name}</span>
+        <span>Название репозитория: {item?.repo?.name}</span>
       </div>
       <div>
-        <span>URL репозитория: </span>
-        <span>{item?.repo?.url}</span>
+        <span>URL репозитория: {item?.repo?.url}</span>
       </div>
     </div>
   );

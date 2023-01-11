@@ -1,3 +1,1 @@
-import ListRepo from "./ListRepo";
-
-export default ListRepo;
+export {default as ListRepo} from './ListRepo'

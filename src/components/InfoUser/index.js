@@ -1,3 +1,1 @@
-import InfoUser from "./InfoUser";
-
-export default InfoUser;
+export {default as InfoUser} from './InfoUser'

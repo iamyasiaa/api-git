@@ -7,25 +7,19 @@ import { clearTimer, getListRepo } from "../actions/actionRepo";
 import { useInterval } from "../customHooks/useInterval";
 
 export default function Main() {
-  const [loadList, setLoadList] = useState({
-    active: true,
-  });
+  const [loadList, setLoadList] = useState(false);
   const [refresh, setRefresh] = useState(false);
   const timer = useSelector((state) => state.repo.timer);
-  const isLoading = useSelector((state) => state.repo.isLoadingRepo);
+  const isLoading = useSelector((state) => state.repo.repoList.loading);
   const dispatch = useDispatch();
-  useInterval(callbackInterval, loadList.active, 60000);
+  useInterval(callbackInterval, loadList, 60000);
 
   const onClickEdit = useCallback(() => {
     dispatch(getListRepo());
   }, []);
 
   window.addEventListener("scroll", function () {
-    if (window.pageYOffset) {
-      setLoadList(Object.assign({}, loadList, { active: null }));
-    } else {
-      setLoadList(Object.assign({}, loadList, { active: uuidv4() }));
-    }
+    setLoadList(window.pageYOffset ? null : uuidv4());
   });
 
   function callbackInterval() {

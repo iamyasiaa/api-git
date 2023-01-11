@@ -8,7 +8,7 @@ import { ListEvents, InfoUser, Body } from "../components";
 export default function Description() {
   const dispatch = useDispatch();
   const location = useLocation();
-  const isLoading = useSelector((state) => state.repo.isLoadingEvent);
+  const isLoading = useSelector((state) => state.repo.eventsList.loading);
   const userName = location.pathname.slice(1);
 
   useEffect(() => {
