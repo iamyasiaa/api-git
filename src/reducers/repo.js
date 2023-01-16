@@ -1,7 +1,6 @@
 import {
   CLEAR_LOADING_EVENT,
   CLEAR_LOADING_REPO,
-  CLEAR_TIMER,
   GET_LIST_REPO,
   GET_REPO,
   SET_LIST_REPO,
@@ -17,7 +16,6 @@ const defaultState = {
     data: [],
     loading: false,
   },
-  timer: false,
 };
 
 export default function repo(state = defaultState, action) {
@@ -29,7 +27,6 @@ export default function repo(state = defaultState, action) {
           data: action.payload,
           loading: false,
         },
-        timer: true,
       };
     case CLEAR_LOADING_EVENT:
       return {
@@ -54,11 +51,6 @@ export default function repo(state = defaultState, action) {
           ...state.repoList,
           loading: true,
         },
-      };
-    case CLEAR_TIMER:
-      return {
-        ...state,
-        timer: false,
       };
     case CLEAR_LOADING_REPO:
       return {

@@ -3,19 +3,20 @@ import { useDispatch, useSelector } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
 
 import { Body, ListRepo, Edit } from "../components";
-import { clearTimer, getListRepo } from "../actions/actionRepo";
+import { getListRepo } from "../actions/actionRepo";
 import { useInterval } from "../customHooks/useInterval";
 
 export default function Main() {
   const [loadList, setLoadList] = useState(false);
   const [refresh, setRefresh] = useState(false);
-  const timer = useSelector((state) => state.repo.timer);
+  const [timer, setTimer] = useState(false);
   const isLoading = useSelector((state) => state.repo.repoList.loading);
   const dispatch = useDispatch();
   useInterval(callbackInterval, loadList, 60000);
 
   const onClickEdit = useCallback(() => {
     dispatch(getListRepo());
+    setTimer(true);
   }, []);
 
   window.addEventListener("scroll", function () {
@@ -31,7 +32,7 @@ export default function Main() {
       setRefresh(false);
       let id = setTimeout(() => {
         setRefresh(true);
-        dispatch(clearTimer());
+        setTimer(false);
       }, 15000);
 
       return () => {
@@ -42,6 +43,7 @@ export default function Main() {
 
   useEffect(() => {
     dispatch(getListRepo());
+    setTimer(true);
   }, []);
 
   return (
